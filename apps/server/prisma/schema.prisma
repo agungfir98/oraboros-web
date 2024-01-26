@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Budget {
+  budgetId     String         @unique @default(uuid())
+  name         String
+  shortName    String?
+  amount       Int
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime?
+  userId       String
+  Profile      Profile        @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  Transactions Transactions[]
+}
+
+model Order {
+  orderId      String         @unique @default(uuid())
+  createdAt    DateTime       @default(now())
+  userId       String
+  Profile      Profile        @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  Transactions Transactions[]
+}
+
+model Profile {
+  userId      String   @unique @default(uuid())
+  displayName String
+  Budget      Budget[]
+  Order       Order[]
+}
+
+model Transactions {
+  transactionId String   @unique @default(uuid())
+  createdAt     DateTime @default(now())
+  budgetId      String
+  orderOrderId  String?
+  Budget        Budget   @relation(fields: [budgetId], references: [budgetId], onDelete: NoAction)
+  Order         Order?   @relation(fields: [orderOrderId], references: [orderId], onDelete: NoAction)
+}
