@@ -10,4 +10,8 @@ export class ProfileService {
       data: { displayName: 'Agoeng' },
     });
   }
+
+  async getUser(userId: string) {
+    this.prismaService.profile.findUnique({ where: { userId } });
+  }
 }
