@@ -30,6 +30,7 @@ model Order {
 model Profile {
   userId      String   @unique @default(uuid())
   displayName String
+  email       String   @unique
   Budget      Budget[]
   Order       Order[]
 }
