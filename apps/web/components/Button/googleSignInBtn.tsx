@@ -14,13 +14,11 @@ const GoogleSignInBtn = () => {
 	};
 	return (
 		<button
-			className="flex gap-2 items-center outline-slate-400 outline-1 outline px-3 py-4 rounded-lg hover:bg-neutral-200"
+			className="outline outline-1 outline-black hover:bg-green-400 flex h-full w-full items-center justify-center py-3"
 			onClick={handleGoogleSignin}
 		>
 			<FcGoogle size={24} />
-			<p className="font-semibold text-neutral-600 tex-2xl">
-				Sign in With Google
-			</p>
+			<p className="font-semibold">Sign in With Google</p>
 		</button>
 	);
 };
