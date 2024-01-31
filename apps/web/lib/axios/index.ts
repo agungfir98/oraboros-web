@@ -1,6 +1,14 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 
 export const api = axios.create({
 	baseURL: `http://localhost:8080`,
-	withCredentials: true,
+	withCredentials: false,
 });
+
+export const headers = (token: string): AxiosRequestConfig => {
+	return {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	};
+};
