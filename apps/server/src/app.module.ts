@@ -6,9 +6,10 @@ import { PassportModule } from '@nestjs/passport';
 import { SupabaseModule } from './core/auth/supabase/supabase.module';
 import { APP_FILTER } from '@nestjs/core';
 import { HttpExecptionFilter } from './http-execptionFilter';
+import { BudgetModule } from './core/budget/budget.module';
 
 @Module({
-  imports: [ProfileModule, PassportModule, SupabaseModule],
+  imports: [BudgetModule, ProfileModule, PassportModule, SupabaseModule],
   controllers: [AppController],
   providers: [
     AppService,
