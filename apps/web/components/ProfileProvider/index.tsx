@@ -1,14 +1,16 @@
 "use client";
-import React from "react";
+import axios from "axios";
+import { redirect } from "next/navigation";
+import React, { useEffect } from "react";
 import { useQuery } from "react-query";
-import { api } from "~/lib/axios";
+import { api, authHeader } from "~/lib/axios";
 import { createSupabaseClientComponent } from "~/lib/supabase/client";
 import useTokenStore from "~/store/tokenStore";
 
 const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({
 	children,
 }) => {
-	const { setToken } = useTokenStore();
+	const { setToken, token } = useTokenStore();
 	const supabase = createSupabaseClientComponent();
 
 	const { data, isLoading: dbLoading } = useQuery({
@@ -21,24 +23,36 @@ const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({
 		},
 	});
 
-	useQuery({
+	const {
+		isLoading,
+		data: dbData,
+		error,
+	} = useQuery({
 		queryKey: ["user-db"],
 		queryFn: () => {
-			return api
-				.post(`/profile/boarding`, {
+			return api.get(`/profile/boarding`, {
+				params: {
 					email: data?.user.email,
 					displayName: data?.user.user_metadata.full_name,
-				})
-				.then((res) => {
-					console.log({ hehe: res });
-					return res;
-				});
+				},
+				headers: {
+					...authHeader(token),
+				},
+			});
 		},
+		retry: false,
 		refetchOnWindowFocus: false,
 		enabled: !dbLoading,
 	});
 
-	return dbLoading ? <div>Loading...</div> : children;
+	useEffect(() => {
+		if (dbData?.status === 201) return redirect("/boarding-page");
+		if (axios.isAxiosError(error)) {
+			if (error.response?.status === 404) return redirect("/boarding-page");
+		}
+	}, [dbData, error]);
+
+	return isLoading || dbLoading ? <div>Loading...</div> : children;
 };
 
 export default ProfileProvider;
