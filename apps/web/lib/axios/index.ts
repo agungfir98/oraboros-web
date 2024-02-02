@@ -5,10 +5,8 @@ export const api = axios.create({
 	withCredentials: false,
 });
 
-export const headers = (token: string): AxiosRequestConfig => {
+export const authHeader = (token: string): AxiosRequestConfig["headers"] => {
 	return {
-		headers: {
-			Authorization: `Bearer ${token}`,
-		},
+		Authorization: `Bearer ${token}`,
 	};
 };
