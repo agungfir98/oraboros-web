@@ -8,38 +8,41 @@ datasource db {
 }
 
 model Budget {
-  budgetId     String         @unique @default(uuid())
-  name         String
-  shortName    String?
-  amount       Int
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime?
-  userId       String
-  Profile      Profile        @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  Transactions Transactions[]
+  budgetId  String    @unique @default(uuid())
+  name      String
+  shortName String?
+  amount    Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+  userId    String
+  profile   Profile   @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  orders    Order[]
 }
 
 model Order {
-  orderId      String         @unique @default(uuid())
-  createdAt    DateTime       @default(now())
-  userId       String
-  Profile      Profile        @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  Transactions Transactions[]
+  orderId       String       @unique @default(uuid())
+  createdAt     DateTime     @default(now())
+  userId        String
+  profile       Profile      @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  budget        Budget?      @relation(fields: [budgetId], references: [budgetId], onDelete: Cascade)
+  budgetId      String?
+  transactionId String
+  transaction   Transactions @relation(fields: [transactionId], references: [transactionId], onDelete: Cascade)
 }
 
 model Profile {
-  userId      String   @unique @default(uuid())
-  displayName String
-  email       String   @unique
-  Budget      Budget[]
-  Order       Order[]
+  userId       String         @unique @default(uuid())
+  displayName  String
+  email        String         @unique
+  Budget       Budget[]
+  Order        Order[]
+  transactions Transactions[]
 }
 
 model Transactions {
   transactionId String   @unique @default(uuid())
   createdAt     DateTime @default(now())
-  budgetId      String
-  orderOrderId  String?
-  Budget        Budget   @relation(fields: [budgetId], references: [budgetId], onDelete: NoAction)
-  Order         Order?   @relation(fields: [orderOrderId], references: [orderId], onDelete: NoAction)
+  userId        String?
+  profile       Profile? @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  order         Order[]
 }
