@@ -9,6 +9,7 @@ module.exports = {
 		extend: {
 			boxShadow: {
 				"solid-base": "0.5rem 1rem 0rem rgba(0,0,0,1)",
+				"solid-sm": "0.3rem 0.5rem 0rem rgba(0,0,0,1)",
 			},
 		},
 	},
