@@ -3,7 +3,7 @@ import { REQUEST } from '@nestjs/core';
 import { SupabaseClient, createClient } from '@supabase/supabase-js';
 import { env } from './config';
 import { ExtractJwt } from 'passport-jwt';
-import { Request } from 'express';
+import type { Request } from 'express';
 
 @Injectable({ scope: Scope.REQUEST })
 export class SupabaseService {
