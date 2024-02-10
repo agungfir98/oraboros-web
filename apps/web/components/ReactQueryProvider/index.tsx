@@ -5,9 +5,9 @@ import { QueryClient, QueryClientProvider } from "react-query";
 
 const queryClient = new QueryClient();
 export const ReactQueryProvider: React.FC<{ children: React.ReactNode }> = ({
-	children,
+  children,
 }) => {
-	return (
-		<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-	);
+  return (
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  );
 };
