@@ -5,14 +5,15 @@ import {
   Get,
   Param,
   Put,
-  Query,
   Res,
   UseGuards,
 } from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { CreateProfileDTO, EditProfileDTO } from '@ob/dto';
 import { SupabaseGuard } from '../auth/supabase/supabase.guard';
-import { Response } from 'express';
+import type { Response } from 'express';
+import { User } from '../auth/user.decorator';
+import type { AuthUser } from '@supabase/supabase-js';
 
 @Controller('profile')
 export class ProfileController {
@@ -20,28 +21,30 @@ export class ProfileController {
 
   @UseGuards(SupabaseGuard)
   @Get('boarding')
-  async createNewUser(
-    @Query() createProfileDTO: CreateProfileDTO,
-    @Res() res: Response,
-  ) {
-    const user = await this.profileService.getUserByEmail(
+  async createNewUser(@Res() res: Response, @User() user: AuthUser) {
+    const createProfileDTO: CreateProfileDTO = {
+      email: user.email,
+      displayName: user.user_metadata.full_name,
+    };
+
+    const profile = await this.profileService.getUserByEmail(
       createProfileDTO.email,
     );
 
     try {
-      if (!user) {
-        const newUser = await this.profileService.createUser({
+      if (!profile) {
+        const newProfile = await this.profileService.createUser({
           displayName: createProfileDTO.displayName,
           email: createProfileDTO.email,
         });
 
         return res.status(201).json({
           messsage: 'new user created',
-          newUser,
+          newProfile,
         });
       }
 
-      if (user._count.Budget === 0) {
+      if (profile._count.Budget === 0) {
         return res.status(404).send();
       }
 

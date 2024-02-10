@@ -22,10 +22,19 @@ export class ProfileService {
   }
 
   async getUserByEmail(email: string) {
-    return await this.prismaService.profile.findUnique({
-      where: { email },
-      select: { _count: true, displayName: true, email: true },
-    });
+    try {
+      return await this.prismaService.profile.findUnique({
+        where: { email },
+        select: {
+          _count: true,
+          displayName: true,
+          email: true,
+          userId: true,
+        },
+      });
+    } catch (error) {
+      throw new Error('failed to find user by email');
+    }
   }
 
   async editProfile(userId: string, editProfileDTO: EditProfileDTO) {

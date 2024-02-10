@@ -1,9 +1,15 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsObject, IsString } from "class-validator";
 
 export class ProfileDTO {
-	@IsString()
-	userId: string;
+  @IsString()
+  userId: string;
 
-	@IsNotEmpty()
-	full_name: string;
+  @IsNotEmpty()
+  displayName: string;
+
+  @IsString()
+  email: string;
+
+  @IsObject()
+  _count: { Budget: number; Order: number; transactions: number };
 }
