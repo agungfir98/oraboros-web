@@ -1,20 +1,28 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { CreateBudgetsDTO } from '@ob/dto';
 import { BudgetService } from './budget.service';
+import { SupabaseGuard } from '../auth/supabase/supabase.guard';
+import { User } from '../auth/user.decorator';
+import type { AuthUser } from '@supabase/supabase-js';
+import { ProfileService } from '../profile/profile.service';
 
 @Controller('budget')
 export class BudgetController {
-  constructor(private readonly budgetService: BudgetService) {}
-  @Get()
-  async getBudget() {}
+  constructor(
+    private readonly budgetService: BudgetService,
+    private readonly profileService: ProfileService,
+  ) {}
 
+  @UseGuards(SupabaseGuard)
   @Post('newbudgets')
   async createBulkBudgets(
-    @Query() query: Pick<CreateBudgetsDTO, 'userId'>,
-    @Body() data: Omit<CreateBudgetsDTO, 'userId'>[],
+    @Body() data: { budgets: Omit<CreateBudgetsDTO, 'userId'>[] },
+    @User() user: AuthUser,
   ) {
-    const createBudgetsDTO: CreateBudgetsDTO[] = data.map((data) => ({
-      ...query,
+    const { userId } = await this.profileService.getUserByEmail(user.email);
+
+    const createBudgetsDTO: CreateBudgetsDTO[] = data.budgets.map((data) => ({
+      userId: userId,
       ...data,
     }));
 
