@@ -28,7 +28,7 @@ const SignOutButton = () => {
 						<p>are you sure?</p>
 					</div>
 					<div className="flex justify-end mt-4 gap-5">
-						<AlertDialog.Cancel>
+						<AlertDialog.Cancel asChild>
 							<Button
 								className="shadow-solid-sm"
 								variant="primary"
