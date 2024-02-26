@@ -8,10 +8,10 @@ const buttonVariance = cva(
 	{
 		variants: {
 			variant: {
-				success: ["hover:bg-green-400 hover:text-white"],
-				primary: ["hover:bg-blue-400 hover:text-white"],
-				warning: ["hover:bg-orange-400 hover:text-white"],
-				danger: ["hover:bg-red-400 hover:text-white"],
+				success: ["hover:bg-green-400 hover:text-white focus:bg-green-400"],
+				primary: ["hover:bg-blue-400 hover:text-white focus:bg-blue-400"],
+				warning: ["hover:bg-orange-400 hover:text-white focus:bg-orange-400"],
+				danger: ["hover:bg-red-400 hover:text-white focus:bg-red-400"],
 			},
 			size: {
 				"1": ["px-2 py-1"],

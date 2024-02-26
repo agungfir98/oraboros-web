@@ -35,7 +35,7 @@ const SignOutButton = () => {
 								size="2"
 								outline="1"
 							>
-								Cancel
+								Cancel {"[esc]"}
 							</Button>
 						</AlertDialog.Cancel>
 						<AlertDialog.Action asChild>
