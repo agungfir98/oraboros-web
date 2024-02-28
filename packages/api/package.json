@@ -1,0 +1,25 @@
+{
+  "name": "@ob/api",
+  "version": "1.0.1",
+  "description": "oraboros api handler",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "gnuga",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.7",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-query": "^3.39.3"
+  },
+  "devDependencies": {
+    "@ob/dto": "*",
+    "@repo/typescript-config": "*",
+    "tsc-alias": "^1.8.8",
+    "type-fest": "^4.10.3",
+    "typescript": "^5.3.3"
+  }
+}
