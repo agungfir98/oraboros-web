@@ -16,12 +16,12 @@ export class BudgetController {
   @UseGuards(SupabaseGuard)
   @Post('newbudgets')
   async createBulkBudgets(
-    @Body() data: { budgets: Omit<CreateBudgetsDTO, 'userId'>[] },
+    @Body() data: Omit<CreateBudgetsDTO, 'userId'>[],
     @User() user: AuthUser,
   ) {
     const { userId } = await this.profileService.getUserByEmail(user.email);
 
-    const createBudgetsDTO: CreateBudgetsDTO[] = data.budgets.map((data) => ({
+    const createBudgetsDTO: CreateBudgetsDTO[] = data.map((data) => ({
       userId: userId,
       ...data,
     }));
