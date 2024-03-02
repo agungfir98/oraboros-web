@@ -19,8 +19,8 @@ const SignOutButton = () => {
 	return (
 		<AlertDialog.Root>
 			<AlertDialog.Portal>
-				<AlertDialog.Overlay className="fixed bg-neutral-400/30 inset-0" />
-				<AlertDialog.Content className="outline outline-1 outline-black w-fit px-5 py-4 self-center fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white shadow-solid-sm max-sm:w-[90%]">
+				<AlertDialog.Overlay className="bg-neutral-400/30 inset-0 fixed" />
+				<AlertDialog.Content className="outline outline-1 outline-black w-fit px-5 py-4 self-center absolute left-1/2 -translate-x-1/2 bg-white shadow-solid-sm max-sm:w-[90%]">
 					<div>
 						<h1 className="text-red-500 font-medium">
 							You are about to be Sign Out.
