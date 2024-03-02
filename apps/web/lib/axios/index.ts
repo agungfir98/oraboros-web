@@ -1,12 +1,33 @@
-import axios, { AxiosRequestConfig } from "axios";
+import Axios, { AxiosInstance, InternalAxiosRequestConfig } from "axios";
 
-export const api = axios.create({
-  baseURL: `http://localhost:8080`,
-  withCredentials: false,
-});
+import { useStore } from "~/store";
 
-export const authHeader = (token: string): AxiosRequestConfig["headers"] => {
-  return {
-    Authorization: `Bearer ${token}`,
-  };
-};
+export class AxiosManager {
+	public readonly axios: AxiosInstance;
+
+	constructor() {
+		this.axios = Axios.create({
+			baseURL: "http://localhost:8080",
+		});
+
+		this.axios.interceptors.request.use(this.authRequestInterceptor);
+	}
+
+	private async authRequestInterceptor(
+		axiosConfig: InternalAxiosRequestConfig
+	) {
+		const token = useStore.getState().accessToken;
+
+		if (axiosConfig.headers) {
+			if (token) {
+				axiosConfig.headers.authorization = `Bearer ${token}`;
+			}
+			axiosConfig.headers.Accept = "application/json";
+		}
+
+		return axiosConfig;
+	}
+}
+
+// will be used in SSR API Requests
+export const { axios } = new AxiosManager();
