@@ -1,9 +1,4 @@
-import React, {
-	PropsWithChildren,
-	createContext,
-	useCallback,
-	useEffect,
-} from "react";
+import React, { PropsWithChildren, createContext, useCallback } from "react";
 import type { AxiosInstance, AxiosPromise } from "axios";
 import defaultAxios from "axios";
 
@@ -27,9 +22,6 @@ export const ApiClientProvider: React.FC<
 		axios: axiosInstace || defaultAxios,
 		api,
 	};
-	useEffect(() => {
-		console.log({ value });
-	}, []);
 
 	return (
 		<ApiClientCtx.Provider value={value}>{children}</ApiClientCtx.Provider>
