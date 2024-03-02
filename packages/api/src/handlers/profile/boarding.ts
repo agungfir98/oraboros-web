@@ -1,21 +1,24 @@
-import { UseQueryOptions, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import { useApiClient } from "../../providers";
-import { ApiFn } from "../../lib/react-query";
 import defaultAxios from "axios";
 
-import type { AxiosPromise } from "axios";
+import type { ApiFn, QueryFn } from "../../types/react-query";
+import type { AxiosPromise, AxiosRequestConfig, AxiosResponse } from "axios";
 
-export const userBoarding: ApiFn<{}, AxiosPromise<any>> = (
-	{},
-	{ axios = defaultAxios }
-) => {
-	return axios.get("/profile/boarding");
+export const userBoarding: ApiFn<
+	AxiosRequestConfig | undefined,
+	AxiosPromise
+> = (axiosConfig, { axios = defaultAxios }) => {
+	return axios.get("/profile/boarding", axiosConfig);
 };
 
-export const useBoardingQuery = (config: UseQueryOptions) => {
+export const useBoardingQuery: QueryFn<{ shouldRedirect: boolean }> = (
+	params = undefined,
+	config
+) => {
 	const { axios } = useApiClient();
 	return useQuery({
-		queryFn: () => userBoarding({}, { axios }),
+		queryFn: () => userBoarding(params, { axios }),
 		...config,
 	});
 };
