@@ -1,38 +1,44 @@
 "use client";
-import axios from "axios";
-import { redirect } from "next/navigation";
+import { useBoardingQuery } from "@ob/api";
+import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
-import { useQuery } from "react-query";
-import { api, authHeader } from "~/lib/axios";
-import useTokenStore from "~/store/tokenStore";
+import { useStore } from "~/store";
+import { isAxiosError } from "axios";
+import toast from "react-hot-toast";
 
 const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
+	children,
 }) => {
-  const { token } = useTokenStore();
+	const { accessToken } = useStore();
+	const router = useRouter();
 
-  const { isLoading, data, error } = useQuery({
-    queryKey: ["user-db"],
-    queryFn: () => {
-      return api.get(`/profile/boarding`, {
-        headers: {
-          ...authHeader(token),
-        },
-      });
-    },
-    retry: false,
-    refetchOnWindowFocus: false,
-    enabled: !!token,
-  });
+	const {
+		data,
+		isLoading: boardingLoading,
+		error,
+	} = useBoardingQuery(undefined, {
+		retry: false,
+		enabled: !!accessToken,
+		refetchOnWindowFocus: false,
+	});
 
-  useEffect(() => {
-    if (data?.status === 201) return redirect("/boarding-page");
-    if (axios.isAxiosError(error)) {
-      if (error.response?.status === 404) return redirect("/boarding-page");
-    }
-  }, [data, error]);
+	useEffect(() => {
+		if (!data && isAxiosError(error)) {
+			toast.error("something went wrong, try to refresh the page");
+		}
 
-  return isLoading ? <div>Loading...</div> : children;
+		if (boardingLoading) return;
+
+		if (location.pathname === "/boarding-page") {
+			if (!data?.data.shouldRedirect) {
+				return router.replace("/");
+			}
+		} else {
+			if (data?.data.shouldRedirect) router.replace("/boarding-page");
+		}
+	}, [data, error, boardingLoading]);
+
+	return !boardingLoading && children;
 };
 
 export default ProfileProvider;
