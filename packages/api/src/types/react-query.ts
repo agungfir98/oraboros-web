@@ -26,7 +26,10 @@ export type QueryConfig<tResult = any> = UseQueryOptions<
 	AxiosResponse<tResult>
 >;
 
-export type QueryFn<tResult = any> = (
-	params?: AxiosRequestConfig | undefined,
+export type QueryFn<
+	tResult = any,
+	axiosConfig = AxiosRequestConfig | undefined,
+> = (
+	params?: axiosConfig,
 	config?: QueryConfig<tResult>
 ) => UseQueryResult<AxiosResponse<tResult>, any>;
