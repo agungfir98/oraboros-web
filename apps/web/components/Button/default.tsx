@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { cva, VariantProps } from "class-variance-authority";
 import { cn } from "~/utils/tailwind-merge";
 import { FaSpinner } from "react-icons/fa";
@@ -38,27 +38,21 @@ interface ButtonProps
 	isLoading?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({
-	children,
-	size,
-	variant,
-	outline,
-	className,
-	isLoading,
-	...props
-}) => {
-	return (
-		<button
-			{...props}
-			className={cn(
-				buttonVariance({ size, variant, outline, className }),
-				className
-			)}
-		>
-			{isLoading && <FaSpinner className="animate-spin" />}
-			{children}
-		</button>
-	);
-};
+const Button: React.FC<ButtonProps> = forwardRef(
+	({ children, size, variant, outline, className, isLoading, ...props }) => {
+		return (
+			<button
+				{...props}
+				className={cn(
+					buttonVariance({ size, variant, outline, className }),
+					className
+				)}
+			>
+				{isLoading && <FaSpinner className="animate-spin" />}
+				{children}
+			</button>
+		);
+	}
+);
 
 export default Button;
