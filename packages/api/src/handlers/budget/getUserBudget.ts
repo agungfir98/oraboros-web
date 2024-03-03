@@ -1,9 +1,15 @@
 import { useQuery } from "react-query";
 import defaultAxios from "axios";
+import { useApiClient } from "../../providers";
 
 import type { ApiFn, QueryFn } from "../../types/react-query";
 import type { AxiosPromise, AxiosRequestConfig } from "axios";
-import { useApiClient } from "../../providers";
+import type { UserBudgetDTO } from "@ob/dto";
+
+type GetUserBudgetResult = {
+	sum?: number;
+	userBudget: UserBudgetDTO[];
+};
 
 type CustomAxiosConfig = Omit<AxiosRequestConfig, "params">;
 
@@ -26,7 +32,7 @@ const getUserBudget: ApiFn<GetBudgetConfig | undefined, AxiosPromise> = (
  * @param config
  * @returns
  */
-export const useGetUserBudget: QueryFn<any, GetBudgetConfig> = (
+export const useGetUserBudget: QueryFn<GetUserBudgetResult, GetBudgetConfig> = (
 	axiosConfig = undefined,
 	config
 ) => {
