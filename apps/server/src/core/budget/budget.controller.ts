@@ -1,10 +1,14 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { CreateBudgetsDTO } from '@ob/dto';
 import { BudgetService } from './budget.service';
 import { SupabaseGuard } from '../auth/supabase/supabase.guard';
 import { User } from '../auth/user.decorator';
 import type { AuthUser } from '@supabase/supabase-js';
 import { ProfileService } from '../profile/profile.service';
+
+export type QueryParam = {
+  sum?: boolean;
+};
 
 @Controller('budget')
 export class BudgetController {
@@ -38,5 +42,32 @@ export class BudgetController {
       console.log(error);
       return { error };
     }
+  }
+
+  @UseGuards(SupabaseGuard)
+  @Get('user-budget')
+  async getUserBudget(
+    @User() user: AuthUser,
+    @Query() query: { sum?: boolean },
+  ) {
+    const profile = await this.profileService.getUserByEmail(user.email);
+
+    try {
+      const userBudget = await this.budgetService.getUserBudget(profile.userId);
+
+      const budgetReg = userBudget.reduce(
+        (acc, curr) => acc + Number(curr.amount),
+        0,
+      );
+
+      console.log({ budgetReg });
+
+      return {
+        userBudget,
+        ...(query.sum && {
+          sum: userBudget.reduce((acc, curr) => acc + Number(curr.amount), 0),
+        }),
+      };
+    } catch (error) {}
   }
 }
