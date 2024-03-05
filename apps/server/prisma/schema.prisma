@@ -11,7 +11,7 @@ model Budget {
   budgetId  String    @unique @default(uuid())
   name      String    @unique
   shortName String?
-  amount    Int
+  amount    Decimal   @db.Money
   createdAt DateTime  @default(now())
   updatedAt DateTime?
   userId    String
@@ -21,6 +21,8 @@ model Budget {
 
 model Order {
   orderId       String       @unique @default(uuid())
+  name          String
+  amount        Decimal      @db.Money
   createdAt     DateTime     @default(now())
   userId        String
   profile       Profile      @relation(fields: [userId], references: [userId], onDelete: Cascade)
