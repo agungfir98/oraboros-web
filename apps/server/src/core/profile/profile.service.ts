@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/lib/prisma.service';
-import { CreateProfileDTO, EditProfileDTO } from '@ob/dto';
-import { Prisma } from '@prisma/client';
+import { CreateProfileDTO } from '@ob/dto';
 
 @Injectable()
 export class ProfileService {
@@ -35,19 +34,6 @@ export class ProfileService {
     } catch (error) {
       throw new Error('failed to find user by email');
     }
-  }
-
-  async editProfile(userId: string, editProfileDTO: EditProfileDTO) {
-    const data: Prisma.ProfileUpdateInput = {
-      ...editProfileDTO,
-    };
-
-    return await this.prismaService.profile.update({
-      where: {
-        userId,
-      },
-      data,
-    });
   }
 
   async deleteProfile(userId: string) {

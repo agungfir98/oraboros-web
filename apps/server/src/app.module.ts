@@ -7,9 +7,16 @@ import { SupabaseModule } from './core/auth/supabase/supabase.module';
 import { APP_FILTER } from '@nestjs/core';
 import { HttpExecptionFilter } from './http-execptionFilter';
 import { BudgetModule } from './core/budget/budget.module';
+import { TransactionModule } from './core/transaction/transaction.module';
 
 @Module({
-  imports: [BudgetModule, ProfileModule, PassportModule, SupabaseModule],
+  imports: [
+    BudgetModule,
+    ProfileModule,
+    PassportModule,
+    SupabaseModule,
+    TransactionModule,
+  ],
   controllers: [AppController],
   providers: [
     AppService,
