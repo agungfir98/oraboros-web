@@ -1,26 +1,22 @@
 import { useQuery } from "react-query";
-import { ApiFn } from "../../lib/react-query";
+import { ApiFn, QueryFn } from "../../types/react-query";
 import defaultAxios from "axios";
-import type { AxiosPromise } from "axios";
+import type { AxiosPromise, AxiosRequestConfig } from "axios";
 import { useApiClient } from "../../providers";
-import type { GetUserTransactionDTO } from "@ob/dto";
 
-const getTransactions: ApiFn<GetUserTransactionDTO, AxiosPromise<any>> = (
-	{ userId },
+const getTransactions: ApiFn<AxiosRequestConfig | undefined, AxiosPromise> = (
+	params,
 	{ axios = defaultAxios }
 ) => {
-	return axios.get("/transactions", {
-		params: {
-			userId,
-		},
-	});
+	return axios.get("/transactions", params);
 };
 
-export const useGetTrasactionHistory = ({ userId }: GetUserTransactionDTO) => {
+export const useGetTrasactionHistory: QueryFn = (params, config) => {
 	const { axios } = useApiClient();
 	return useQuery({
 		queryFn: () => {
-			return getTransactions({ userId }, { axios });
+			return getTransactions(params, { axios });
 		},
+		...config,
 	});
 };

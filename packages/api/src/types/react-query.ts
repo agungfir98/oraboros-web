@@ -9,6 +9,7 @@ import type {
 	UseMutationOptions,
 	UseQueryOptions,
 	UseQueryResult,
+	UseMutationResult,
 } from "react-query";
 
 export type ApiFnOptions = {
@@ -20,7 +21,11 @@ export type ApiFn<ParamsType, ResponseType extends AxiosPromise> = (
 ) => ResponseType;
 
 export type MutationConfig<MutationFnType extends (...arg: any) => any> =
-	UseMutationOptions<AxiosResponse, AxiosError, Parameters<MutationFnType>[0]>;
+	UseMutationOptions<
+		AxiosResponse<MutationFnType>,
+		AxiosError,
+		Parameters<MutationFnType>[0]
+	>;
 
 export type QueryConfig<tResult = any> = UseQueryOptions<
 	AxiosResponse<tResult>
@@ -30,6 +35,16 @@ export type QueryFn<
 	tResult = any,
 	axiosConfig = AxiosRequestConfig | undefined,
 > = (
-	params?: axiosConfig,
+	axiosConfig?: axiosConfig,
 	config?: QueryConfig<tResult>
 ) => UseQueryResult<AxiosResponse<tResult>, any>;
+
+// export type MutationFn<
+// 	mutData = any,
+// 	mutResult = unknown,
+// 	axiosConfig = AxiosRequestConfig | undefined,
+// > = (
+// 	data: mutData,
+// 	axiosConfig: axiosConfig | undefined,
+// 	mutationConfig: MutationConfig<mutData>
+// ) => UseMutationResult<mutResult>;
