@@ -1,15 +1,6 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Put,
-  Res,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Delete, Get, Param, Res, UseGuards } from '@nestjs/common';
 import { ProfileService } from './profile.service';
-import { CreateProfileDTO, EditProfileDTO } from '@ob/dto';
+import { CreateProfileDTO } from '@ob/dto';
 import { SupabaseGuard } from '../auth/supabase/supabase.guard';
 import type { Response } from 'express';
 import { User } from '../auth/user.decorator';
@@ -39,16 +30,16 @@ export class ProfileController {
         });
 
         return res.status(201).json({
-          messsage: 'new user created',
+          shouldRedirect: true,
           newProfile,
         });
       }
 
       if (profile._count.Budget === 0) {
-        return res.status(404).send();
+        return res.json({ shouldRedirect: true });
       }
 
-      return res.send();
+      return res.json({ shouldRedirect: false });
     } catch (error) {
       return res.status(500).json({
         message: 'failed to write data',
@@ -70,20 +61,6 @@ export class ProfileController {
         error,
       };
     }
-  }
-
-  @UseGuards(SupabaseGuard)
-  @Put(':id')
-  async editProfile(
-    @Param() params: { id: string },
-    @Body() editProfile: EditProfileDTO,
-  ) {
-    const editedUser = await this.profileService.editProfile(
-      params.id,
-      editProfile,
-    );
-
-    return editedUser;
   }
 
   @UseGuards(SupabaseGuard)
