@@ -3,8 +3,9 @@ import React from "react";
 import ProfileProvider from "~/components/ProfileProvider";
 import { ReactQueryProvider } from "~/components/ReactQueryProvider";
 import userSession from "~/lib/actions/guard";
-import { SessionProvider } from "~/components/sessionProvider";
+import { SessionWrapper } from "~/components/sessionWrapper";
 import CustomToaster from "~/components/toaster";
+import DashboardNavigation from "~/components/DashboardNavigation";
 
 const MainLayout: React.FC<{
   children: React.ReactNode;
@@ -17,9 +18,12 @@ const MainLayout: React.FC<{
       {data.session ? (
         <ReactQueryProvider>
           <CustomToaster />
-          <SessionProvider>
-            <ProfileProvider>{children}</ProfileProvider>
-          </SessionProvider>
+          <SessionWrapper>
+            <ProfileProvider>
+              <DashboardNavigation />
+              <div className="container mx-auto">{children}</div>
+            </ProfileProvider>
+          </SessionWrapper>
         </ReactQueryProvider>
       ) : (
         landingpage
