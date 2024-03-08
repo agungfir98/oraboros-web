@@ -36,10 +36,10 @@ export class ProfileController {
       }
 
       if (profile._count.Budget === 0) {
-        return res.json({ shouldRedirect: true });
+        return res.json({ shouldRedirect: true, profile });
       }
 
-      return res.json({ shouldRedirect: false });
+      return res.json({ shouldRedirect: false, profile });
     } catch (error) {
       return res.status(500).json({
         message: 'failed to write data',

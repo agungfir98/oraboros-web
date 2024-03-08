@@ -12,10 +12,10 @@ export const userBoarding: ApiFn<
 	return axios.get("/profile/boarding", axiosConfig);
 };
 
-export const useBoardingQuery: QueryFn<{ shouldRedirect: boolean }> = (
-	params = undefined,
-	config
-) => {
+export const useBoardingQuery: QueryFn<{
+	shouldRedirect: boolean;
+	profile: { userId: string };
+}> = (params = undefined, config) => {
 	const { axios } = useApiClient();
 	return useQuery({
 		queryFn: () => userBoarding(params, { axios }),
