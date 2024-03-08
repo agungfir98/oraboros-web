@@ -5,29 +5,28 @@ import { createSupabaseClientComponent } from "~/lib/supabase/client";
 import { useStore } from "~/store";
 
 export const SessionWrapper: React.FC<{ children: React.ReactNode }> = ({
-	children,
+  children,
 }) => {
-	const router = useRouter();
-	const [loading, setLoading] = useState<boolean>(true);
+  const router = useRouter();
+  const [loading, setLoading] = useState<boolean>(true);
 
-	const supabase = createSupabaseClientComponent();
+  const supabase = createSupabaseClientComponent();
 
-	const { onAuthSuccess, onLogout } = useStore();
+  const { onAuthSuccess, onLogout } = useStore();
 
-	useEffect(() => {
-		onLogout();
-		supabase.auth.getSession().then(({ data: { session } }) => {
-			if (session) {
-				setLoading(false);
-				onAuthSuccess({
-					accessToken: session.access_token,
-					user: session.user,
-				});
-			} else {
-				return router.replace("/");
-			}
-		});
-	}, []);
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        setLoading(false);
+        onAuthSuccess({
+          accessToken: session.access_token,
+          user: session.user,
+        });
+      } else {
+        return router.replace("/");
+      }
+    });
+  }, []);
 
-	return !loading && children;
+  return !loading && children;
 };
