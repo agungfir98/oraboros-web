@@ -28,5 +28,26 @@ export const SessionWrapper: React.FC<{ children: React.ReactNode }> = ({
     });
   }, []);
 
+  useEffect(() => {
+    const authInterval = setInterval(
+      () => {
+        return supabase.auth.getSession().then(({ data: { session } }) => {
+          if (session) {
+            setLoading(false);
+            onAuthSuccess({
+              accessToken: session.access_token,
+              user: session.user,
+            });
+          } else {
+            return router.replace("/");
+          }
+        });
+      },
+      1000 * 60 * 15,
+    );
+
+    return () => clearInterval(authInterval);
+  }, []);
+
   return !loading && children;
 };
