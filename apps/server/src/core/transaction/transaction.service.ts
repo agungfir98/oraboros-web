@@ -6,12 +6,17 @@ import { PrismaService } from 'src/lib/prisma.service';
 export class TransactionService {
   constructor(private readonly prismaService: PrismaService) {}
 
+  public async transactionCount() {
+    return await this.prismaService.transactions.count();
+  }
+
   public async getUserTransaction(userId: string) {
-    return await this.prismaService.transactions.aggregate({
-      where: {
-        userId,
+    return await this.prismaService.transactions.findMany({
+      where: { userId },
+      include: {
+        order: true,
+        _count: true,
       },
-      _count: true,
       orderBy: { createdAt: 'desc' },
     });
   }

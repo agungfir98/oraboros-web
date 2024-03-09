@@ -5,13 +5,12 @@ import { useApiClient } from "../../providers";
 import type { ApiFn, QueryFn } from "../../types/react-query";
 import type { AxiosPromise, AxiosRequestConfig } from "axios";
 import type { UserBudgetDTO } from "@ob/dto";
+import { CustomAxiosConfig } from "../../types/axioscustomconfig";
 
 type GetUserBudgetResult = {
 	sum?: number;
 	userBudget: UserBudgetDTO[];
 };
-
-type CustomAxiosConfig = Omit<AxiosRequestConfig, "params">;
 
 type GetBudgetConfig = {
 	params: {

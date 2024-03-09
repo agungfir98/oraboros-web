@@ -18,10 +18,12 @@ export class TransactionController {
     const userTransactions = await this.trasactionService.getUserTransaction(
       query.userId,
     );
+    const count = await this.trasactionService.transactionCount();
 
     return {
       status: 'success',
       userTransactions,
+      count,
     };
   }
 
