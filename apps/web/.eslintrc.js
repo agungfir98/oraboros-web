@@ -6,4 +6,9 @@ module.exports = {
   parserOptions: {
     project: true,
   },
+  extends: [
+    "next",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+  ],
 };
