@@ -44,7 +44,7 @@ model Profile {
 model Transactions {
   transactionId String   @unique @default(uuid())
   createdAt     DateTime @default(now())
-  userId        String?
-  profile       Profile? @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  userId        String
+  profile       Profile  @relation(fields: [userId], references: [userId], onDelete: Cascade)
   order         Order[]
 }
