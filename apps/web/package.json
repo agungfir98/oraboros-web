@@ -11,6 +11,7 @@
   "dependencies": {
     "@ob/api": "*",
     "@ob/dto": "*",
+    "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-select": "^2.0.0",
@@ -22,6 +23,7 @@
     "axios": "^1.6.6",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "dayjs": "^1.11.10",
     "formik": "^2.4.5",
     "lucide-react": "^0.344.0",
     "next": "^14.0.4",

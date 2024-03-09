@@ -22,7 +22,9 @@ const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({
     refetchOnWindowFocus: false,
     onSuccess({ data }) {
       console.log({ data });
-      setUserId(data.profile.userId);
+      if (data.profile) {
+        setUserId(data.profile.userId!);
+      }
     },
   });
 
