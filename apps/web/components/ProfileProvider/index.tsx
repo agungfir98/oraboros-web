@@ -21,7 +21,6 @@ const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({
     enabled: !!accessToken,
     refetchOnWindowFocus: false,
     onSuccess({ data }) {
-      console.log({ data });
       if (data.profile) {
         setUserId(data.profile.userId!);
       }

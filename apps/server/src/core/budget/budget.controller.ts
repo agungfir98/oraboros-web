@@ -39,7 +39,6 @@ export class BudgetController {
         newBudgets,
       };
     } catch (error) {
-      console.log(error);
       return { error };
     }
   }
@@ -59,8 +58,6 @@ export class BudgetController {
         (acc, curr) => acc + Number(curr.amount),
         0,
       );
-
-      console.log({ budgetReg });
 
       return {
         userBudget,

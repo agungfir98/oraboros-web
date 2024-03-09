@@ -55,7 +55,6 @@ export class ProfileController {
       const user = await this.profileService.getUserById(params.id);
       return user;
     } catch (error) {
-      console.log(error);
       return {
         msg: 'something wong with the server',
         error,
