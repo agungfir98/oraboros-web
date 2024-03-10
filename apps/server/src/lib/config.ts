@@ -15,4 +15,10 @@ export const env = {
   get supabaseAnonKey() {
     return getRequiredEnv('SUPABASE_ANON_KEY').asString();
   },
+  get originUri() {
+    return getRequiredEnv('ORIGIN_URI').asString();
+  },
+  get port() {
+    return getRequiredEnv('PORT').asInt();
+  },
 };

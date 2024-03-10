@@ -1,15 +1,16 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { HttpExecptionFilter } from './http-execptionFilter';
+import { env } from './lib/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
-    origin: ['http://localhost:3000'],
+    origin: [env.originUri],
   });
 
   app.useGlobalFilters(new HttpExecptionFilter());
-  await app.listen(8080);
+  await app.listen(env.port);
 }
 bootstrap();
