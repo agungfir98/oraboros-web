@@ -38,7 +38,7 @@ const NewTransactionPage = () => {
     },
   });
 
-  const { mutate } = useCreateTransaction({
+  const { mutate, isLoading } = useCreateTransaction({
     onSuccess() {
       toast.success("transaction successfully created");
     },
@@ -221,6 +221,7 @@ const NewTransactionPage = () => {
               variant="primary"
               outline="3"
               className="w-full rounded-md bg-blue-400 font-semibold text-white"
+              isLoading={isLoading}
             >
               Submit
             </Button>

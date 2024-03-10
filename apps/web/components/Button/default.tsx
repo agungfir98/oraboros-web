@@ -1,7 +1,7 @@
 import React, { forwardRef } from "react";
 import { cva, VariantProps } from "class-variance-authority";
-import { FaSpinner } from "react-icons/fa";
 import { cn } from "~/lib/utils";
+import { AiOutlineLoading } from "react-icons/ai";
 
 const buttonVariance = cva(
   "flex justify-center items-center gap-2 bg-white text-slate-700",
@@ -49,7 +49,7 @@ const Button: React.FC<ButtonProps> = forwardRef(
           className,
         )}
       >
-        {isLoading && <FaSpinner className="animate-spin" />}
+        {isLoading && <AiOutlineLoading className="animate-spin" />}
         {children}
       </button>
     );
