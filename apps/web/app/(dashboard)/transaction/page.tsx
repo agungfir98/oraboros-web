@@ -1,23 +1,32 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Link from "~/components/Link";
-import { useGetTrasactionHistory } from "@ob/api";
+import { useGetTransactions } from "@ob/api";
 import { useStore } from "~/store";
 import dayjs from "dayjs";
 import "dayjs/locale/id";
 import { PiClockBold } from "react-icons/pi";
 import { AiOutlineLoading } from "react-icons/ai";
+import { GetTransactionDTO } from "@ob/dto";
 
 dayjs.locale("id-ID");
 
 const TransactionPage = () => {
   const { userId } = useStore();
 
-  const { data, isLoading } = useGetTrasactionHistory(
-    { params: { userId: userId! } },
+  const [params, setParams] = useState<
+    Pick<GetTransactionDTO, "endDate" | "startDate">
+  >({
+    startDate: dayjs().startOf("month").toDate(),
+    endDate: dayjs().endOf("month").toDate(),
+  });
+
+  const { data, isLoading } = useGetTransactions(
+    { params: { userId: userId!, ...params } },
     {
       retry: false,
       refetchOnWindowFocus: false,
+      enabled: !!userId,
     },
   );
 

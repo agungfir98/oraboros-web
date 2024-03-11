@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { TransactionService } from './transaction.service';
 import { SupabaseGuard } from '../auth/supabase/supabase.guard';
-import { CreateTransactionDTO } from '@ob/dto';
+import { CreateTransactionDTO, GetTransactionDTO } from '@ob/dto';
 import { ProfileService } from '../profile/profile.service';
 import { User } from '../auth/user.decorator';
 import type { AuthUser } from '@supabase/supabase-js';
@@ -14,10 +14,13 @@ export class TransactionController {
   ) {}
 
   @Get()
-  public async getUserTransaction(@Query() query: { userId: string }) {
-    const userTransactions = await this.trasactionService.getUserTransaction(
-      query.userId,
-    );
+  public async getUserTransaction(
+    @Query()
+    query: GetTransactionDTO,
+  ) {
+    console.log(query);
+    const userTransactions =
+      await this.trasactionService.getUserTransaction(query);
     const count = await this.trasactionService.transactionCount();
 
     return {

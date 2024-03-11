@@ -1,2 +1,2 @@
-export * from "./getUserTransaction.dto";
+export * from "./getTrasactions.dto";
 export * from "./createTransaction.dto";

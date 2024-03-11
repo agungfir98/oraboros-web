@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTransactionDTO } from '@ob/dto';
+import { CreateTransactionDTO, GetTransactionDTO } from '@ob/dto';
+import { Prisma } from '@ob/db';
 import { PrismaService } from 'src/lib/prisma.service';
 
 @Injectable()
@@ -10,9 +11,16 @@ export class TransactionService {
     return await this.prismaService.transactions.count();
   }
 
-  public async getUserTransaction(userId: string) {
+  public async getUserTransaction(getTransactionDTO: GetTransactionDTO) {
+    const { userId, startDate, endDate } = getTransactionDTO;
+    const transactionWhereClause: Prisma.TransactionsWhereInput = {
+      userId,
+      createdAt: { lte: new Date(endDate), gte: new Date(startDate) },
+    };
     return await this.prismaService.transactions.findMany({
-      where: { userId },
+      where: {
+        ...transactionWhereClause,
+      },
       include: {
         order: true,
         _count: true,

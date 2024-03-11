@@ -4,18 +4,22 @@ import defaultAxios from "axios";
 import type { AxiosPromise } from "axios";
 import { useApiClient } from "../../providers";
 import { CustomAxiosConfig } from "../../types/axioscustomconfig";
-import { GetUserTransactionDTO } from "@ob/dto";
+import { Prisma } from "@ob/db";
 
 type CustomConfig = {
 	params: {
 		userId: string;
+		startDate?: string | Date;
+		endDate?: string | Date;
 	};
 } & CustomAxiosConfig;
 
 type GetTransactionResult = {
 	count: number;
 	status: string;
-	userTransactions: GetUserTransactionDTO[];
+	userTransactions: Prisma.TransactionsGetPayload<{
+		include: { _count: true; order: true };
+	}>[];
 };
 
 const getTransactions: ApiFn<CustomConfig | undefined, AxiosPromise> = (
@@ -25,11 +29,11 @@ const getTransactions: ApiFn<CustomConfig | undefined, AxiosPromise> = (
 	return axios.get("/transaction", axiosConfig);
 };
 
-export const useGetTrasactionHistory: QueryFn<
-	GetTransactionResult,
-	CustomConfig
-> = (axiosConfig = undefined, config) => {
-	const { axios } = useApiClient();
+export const useGetTransactions: QueryFn<GetTransactionResult, CustomConfig> = (
+	axiosConfig = undefined,
+	config
+) => {
+	const { axios, api } = useApiClient();
 	return useQuery({
 		queryFn: () => {
 			return getTransactions(axiosConfig, { axios });
