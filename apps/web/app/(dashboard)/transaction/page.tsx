@@ -1,28 +1,41 @@
 "use client";
 import React, { useState } from "react";
-import Link from "~/components/Link";
 import { useGetTransactions } from "@ob/api";
 import { useStore } from "~/store";
 import dayjs from "dayjs";
 import "dayjs/locale/id";
 import { PiClockBold } from "react-icons/pi";
 import { AiOutlineLoading } from "react-icons/ai";
-import { GetTransactionDTO } from "@ob/dto";
+import { Calendar } from "~/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@radix-ui/react-popover";
+import { Button } from "~/components/ui/button";
+import { DateRange } from "react-day-picker";
+import { IoCalendarOutline } from "react-icons/io5";
+import { useRouter } from "next/navigation";
 
 dayjs.locale("id-ID");
 
 const TransactionPage = () => {
+  const router = useRouter();
   const { userId } = useStore();
 
-  const [params, setParams] = useState<
-    Pick<GetTransactionDTO, "endDate" | "startDate">
-  >({
-    startDate: dayjs().startOf("month").toDate(),
-    endDate: dayjs().endOf("month").toDate(),
+  const [dateRange, setDateRange] = useState<DateRange | undefined>({
+    from: dayjs().startOf("month").toDate(),
+    to: dayjs().endOf("month").toDate(),
   });
 
   const { data, isLoading } = useGetTransactions(
-    { params: { userId: userId!, ...params } },
+    {
+      params: {
+        userId: userId!,
+        startDate: dateRange?.from!,
+        endDate: dateRange?.to!,
+      },
+    },
     {
       retry: false,
       refetchOnWindowFocus: false,
@@ -31,9 +44,52 @@ const TransactionPage = () => {
   );
 
   return (
-    <div className="grid gap-10 py-10 ">
-      <div className="outline-3 grid h-10 items-center rounded-full px-5 shadow-solid-sm outline outline-slate-700">
-        <Link href={"/transaction/new-transaction"}>New Transaction</Link>
+    <div className="grid gap-5 py-10">
+      <div className="flex gap-2">
+        <Button
+          outline="1"
+          className="shadow-solid-xs bg-green-300"
+          onClick={() => router.push("/transaction/new-transaction")}
+        >
+          New Transaction
+        </Button>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              type="button"
+              variant="default"
+              outline="1"
+              className="shadow-solid-xs flex w-[300px] justify-start gap-2 bg-yellow-300 text-left font-normal"
+              id="date"
+            >
+              <IoCalendarOutline />
+              {dateRange?.from ? (
+                dateRange.to ? (
+                  <>
+                    {dayjs(dateRange.from).format("DD MMMM YYYY")}
+                    {" - "}
+                    {dayjs(dateRange.to).format("DD MMMM YYYY")}
+                  </>
+                ) : (
+                  dayjs(dateRange.from).format("DD MMMM YYYY")
+                )
+              ) : (
+                <span>Pick a date</span>
+              )}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0" align="start">
+            <Calendar
+              initialFocus
+              className="rounded-xl bg-white shadow-solid-sm outline outline-1 outline-slate-700"
+              mode="range"
+              defaultMonth={dateRange?.from}
+              selected={dateRange}
+              onSelect={setDateRange}
+              numberOfMonths={2}
+            />
+          </PopoverContent>
+        </Popover>
       </div>
       <div className="outline-3 h-max rounded-xl bg-teal-200 px-3 pb-4 shadow-solid-sm outline outline-slate-700">
         <h1 className="my-4 text-2xl font-bold">Your Transactions</h1>
