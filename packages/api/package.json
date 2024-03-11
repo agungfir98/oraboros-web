@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@ob/dto": "*",
+    "@ob/db": "*",
     "@repo/typescript-config": "*",
     "tsc-alias": "^1.8.8",
     "type-fest": "^4.10.3",

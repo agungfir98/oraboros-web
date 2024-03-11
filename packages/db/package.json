@@ -1,0 +1,23 @@
+{
+  "name": "@ob/db",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "types": "./index.ts",
+  "scripts": {
+    "build": "tsc && npx prisma generate",
+    "studio": "npx prisma studio",
+    "db:migrate": "npx prisma migrate dev",
+    "db:generate": "npx prisma generate"
+  },
+  "keywords": [],
+  "author": "gnuga",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^5.10.2",
+    "prisma": "^5.10.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.2"
+  }
+}
