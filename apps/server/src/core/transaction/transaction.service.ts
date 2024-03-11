@@ -15,7 +15,10 @@ export class TransactionService {
     const { userId, startDate, endDate } = getTransactionDTO;
     const transactionWhereClause: Prisma.TransactionsWhereInput = {
       userId,
-      createdAt: { lte: new Date(endDate), gte: new Date(startDate) },
+      createdAt: {
+        ...(startDate && { gte: startDate }),
+        ...(endDate && { lte: endDate }),
+      },
     };
     return await this.prismaService.transactions.findMany({
       where: {
