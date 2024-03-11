@@ -19,8 +19,10 @@ const config = {
     },
     extend: {
       boxShadow: {
-        "solid-base": "0.5rem 1rem 0rem rgba(0,0,0,1)",
-        "solid-sm": "0.3rem 0.5rem 0rem rgba(0,0,0,1)",
+        "solid-base": "0.5rem 1rem 0rem #334155",
+        "solid-sm": "0.3rem 0.5rem 0rem #334155",
+        "solid-xs": "0.2rem 0.2rem 0rem #334155",
+        "solid-none": "0rem 0rem 0rem #334155",
       },
       colors: {
         border: "hsl(var(--border))",
