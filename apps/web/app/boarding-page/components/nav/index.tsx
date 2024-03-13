@@ -1,30 +1,31 @@
 "use client";
 import React from "react";
-import Button from "~/components/Button/default";
-import { createSupabaseClientComponent } from "~/lib/supabase/client";
+import { GoGear } from "react-icons/go";
+import SignOutButton from "~/components/Button/SignOutButton";
+import { Button } from "~/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~/components/ui/popover";
 
 const Navbar = () => {
-  const supabase = createSupabaseClientComponent();
-  const handleSignOut = () => {
-    supabase.auth.signOut().then(() => {
-      return location.replace("/");
-    });
-  };
-
   return (
-    <nav className="h-16 border-b-2 border-black">
-      <ul className="flex justify-end h-full">
-        <li className="h-full">
+    <nav className="container mx-auto flex h-16 items-center justify-end">
+      <Popover>
+        <PopoverTrigger asChild>
           <Button
-            variant="danger"
-            size="3"
-            className="h-full"
-            onClick={handleSignOut}
+            variant="default"
+            outline="1"
+            className="rounded-full shadow-solid-xs"
           >
-            SignOut
+            <GoGear size={20} />
           </Button>
-        </li>
-      </ul>
+        </PopoverTrigger>
+        <PopoverContent className="z-0 mr-10 p-0 shadow-solid-xs outline outline-1 outline-slate-700">
+          <SignOutButton />
+        </PopoverContent>
+      </Popover>
     </nav>
   );
 };
