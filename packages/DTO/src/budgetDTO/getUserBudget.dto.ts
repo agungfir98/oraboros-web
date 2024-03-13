@@ -1,24 +1,9 @@
-import { IsDate, IsNumber, IsString } from "class-validator";
+import { IsDate, IsNumber, IsOptional, IsString } from "class-validator";
 
-export class UserBudgetDTO {
-	@IsString()
-	budgetId: string;
-
-	@IsString()
-	name: string;
-
-	@IsString()
-	shortName: string;
-
-	@IsNumber()
-	amount: number;
-
-	@IsDate()
-	createdAt: Date;
-
-	@IsDate()
-	updatedAt: Date;
-
+export class GetUserBudgetDTO {
 	@IsString()
 	userId: string;
+
+	@IsOptional()
+	sum?: boolean;
 }
