@@ -9,6 +9,10 @@ const LinkVariance = cva(
   "flex items-center w-fit hover:underline hover:underline-offset-2",
   {
     variants: {
+      variant: {
+        default: "",
+        button: "px-3 py-2 shadow-solid-xs",
+      },
       outline: {
         none: "",
         "1": "outline outline-black outline-1",
@@ -17,6 +21,7 @@ const LinkVariance = cva(
       },
     },
     defaultVariants: {
+      variant: "default",
       outline: "none",
     },
   },
@@ -33,6 +38,7 @@ const Link: React.FC<LinkProps> = ({
   children,
   href,
   className,
+  variant,
   outline,
   target,
   ...props
@@ -40,7 +46,7 @@ const Link: React.FC<LinkProps> = ({
   return (
     <NextLink
       href={href}
-      className={cn(LinkVariance({ className, outline }), className)}
+      className={cn(LinkVariance({ className, outline, variant }), className)}
       {...props}
     >
       {children}

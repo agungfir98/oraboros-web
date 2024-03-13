@@ -1,9 +1,9 @@
 "use client";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import React, { useState } from "react";
-import Button from "./default";
 import { createSupabaseClientComponent } from "~/lib/supabase/client";
-import { FaSignOutAlt } from "react-icons/fa";
+import { Button } from "../ui/button";
+import { IoLogOutOutline } from "react-icons/io5";
 
 const SignOutButton = () => {
   const supabase = createSupabaseClientComponent();
@@ -29,12 +29,7 @@ const SignOutButton = () => {
           </div>
           <div className="mt-4 flex justify-end gap-5">
             <AlertDialog.Cancel asChild>
-              <Button
-                className="shadow-solid-sm"
-                variant="primary"
-                size="2"
-                outline="1"
-              >
+              <Button className="shadow-solid-sm" variant="success" outline="1">
                 Cancel {"[esc]"}
               </Button>
             </AlertDialog.Cancel>
@@ -42,7 +37,6 @@ const SignOutButton = () => {
               <Button
                 className="shadow-solid-sm"
                 variant="danger"
-                size="2"
                 outline="1"
                 isLoading={isLoading}
                 onClick={handleSignOut}
@@ -54,8 +48,9 @@ const SignOutButton = () => {
         </AlertDialog.Content>
       </AlertDialog.Portal>
       <AlertDialog.Trigger asChild>
-        <Button variant="danger" outline="1" size="3" className="px-6">
-          <FaSignOutAlt />
+        <Button className="w-full hover:bg-red-300">
+          <IoLogOutOutline />
+          Logout
         </Button>
       </AlertDialog.Trigger>
     </AlertDialog.Root>
