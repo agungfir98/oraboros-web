@@ -3,19 +3,18 @@ import defaultAxios from "axios";
 import { useApiClient } from "../../providers";
 
 import type { ApiFn, QueryFn } from "../../types/react-query";
-import type { AxiosPromise, AxiosRequestConfig } from "axios";
-import type { UserBudgetDTO } from "@ob/dto";
-import { CustomAxiosConfig } from "../../types/axioscustomconfig";
+import type { AxiosPromise } from "axios";
+import type { Prisma } from "@ob/db";
+import type { CustomAxiosConfig } from "../../types/axioscustomconfig";
+import type { GetUserBudgetDTO } from "@ob/dto";
 
 type GetUserBudgetResult = {
-	sum?: number;
-	userBudget: UserBudgetDTO[];
+	sum: number;
+	userBudget: Prisma.BudgetGetPayload<{}>[];
 };
 
 type GetBudgetConfig = {
-	params: {
-		sum: boolean;
-	};
+	params: GetUserBudgetDTO;
 } & CustomAxiosConfig;
 
 const getUserBudget: ApiFn<GetBudgetConfig | undefined, AxiosPromise> = (
