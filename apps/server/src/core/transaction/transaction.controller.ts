@@ -18,7 +18,6 @@ export class TransactionController {
     @Query()
     query: GetTransactionDTO,
   ) {
-    console.log(query);
     const userTransactions =
       await this.trasactionService.getUserTransaction(query);
     const count = await this.trasactionService.transactionCount();
