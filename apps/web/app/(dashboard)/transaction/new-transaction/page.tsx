@@ -9,7 +9,6 @@ import {
   useFormik,
 } from "formik";
 import * as yup from "yup";
-import Button from "~/components/Button/default";
 import { CiTrash } from "react-icons/ci";
 import { GoPlus } from "react-icons/go";
 import { useCreateTransaction, useGetUserBudget } from "@ob/api";
@@ -22,6 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
+import { Button } from "~/components/ui/button";
 
 const NewTransactionPage = () => {
   const { data } = useGetUserBudget(undefined, {
@@ -190,8 +190,7 @@ const NewTransactionPage = () => {
                             <Button
                               type="button"
                               variant="danger"
-                              size="1"
-                              className="rounded-full text-red-700 outline-none outline outline-transparent hover:[&>*]:text-white"
+                              className="rounded-full text-red-700 outline-none outline outline-transparent hover:text-white"
                               onClick={() => remove(index)}
                             >
                               <CiTrash size={24} />
@@ -204,7 +203,8 @@ const NewTransactionPage = () => {
                   <div className="flex justify-end pt-5">
                     <Button
                       variant="success"
-                      className="rounded-md"
+                      outline="1"
+                      className="rounded-md shadow-solid-xs"
                       type="button"
                       onClick={() => push({ name: "", amount: 0 })}
                     >
@@ -220,7 +220,7 @@ const NewTransactionPage = () => {
               type="submit"
               variant="primary"
               outline="3"
-              className="w-full rounded-md bg-blue-400 font-semibold text-white"
+              className="w-full rounded-md bg-blue-400 font-semibold hover:bg-blue-500"
               isLoading={isLoading}
             >
               Submit
