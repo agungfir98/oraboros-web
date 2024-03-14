@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateBudgetsDTO } from '@ob/dto';
+import { CreateBudgetsDTO, GetBudgetByIdDTO } from '@ob/dto';
 import { PrismaService } from 'src/lib/prisma.service';
 
 @Injectable()
@@ -14,6 +14,14 @@ export class BudgetService {
     return this.prismaService.budget.createMany({
       data: [...createBudgetsDTO],
       skipDuplicates: true,
+    });
+  }
+
+  public getBudgetById(getBudgetByIdDTO: GetBudgetByIdDTO) {
+    const { budgetId } = getBudgetByIdDTO;
+    return this.prismaService.budget.findUnique({
+      where: { budgetId },
+      include: { orders: true },
     });
   }
 }

@@ -7,11 +7,11 @@ import { CiMoneyBill } from "react-icons/ci";
 import { PiWalletLight } from "react-icons/pi";
 
 const RootPage = () => {
-  const { accessToken } = useStore();
+  const { accessToken, userId } = useStore();
 
   const { data, isLoading: budgetLoading } = useGetUserBudget(
     {
-      params: { sum: true },
+      params: { sum: true, userId: userId! },
     },
     {
       enabled: !!accessToken,

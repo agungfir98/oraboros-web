@@ -1,5 +1,13 @@
-import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
-import { CreateBudgetsDTO, GetUserBudgetDTO } from '@ob/dto';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
+import { CreateBudgetsDTO, GetBudgetByIdDTO, GetUserBudgetDTO } from '@ob/dto';
 import { BudgetService } from './budget.service';
 import { SupabaseGuard } from '../auth/supabase/supabase.guard';
 import { User } from '../auth/user.decorator';
@@ -51,6 +59,16 @@ export class BudgetController {
           sum: userBudget.reduce((acc, curr) => acc + Number(curr.amount), 0),
         }),
       };
+    } catch (error) {}
+  }
+
+  @UseGuards(SupabaseGuard)
+  @Get(':budgetId')
+  async getBudgetById(@Param() params: GetBudgetByIdDTO) {
+    try {
+      const budget = await this.budgetService.getBudgetById(params);
+
+      return budget;
     } catch (error) {}
   }
 }
