@@ -12,7 +12,7 @@ export class TransactionService {
   }
 
   public async getUserTransaction(getTransactionDTO: GetTransactionDTO) {
-    const { userId, startDate, endDate } = getTransactionDTO;
+    const { userId, startDate, endDate, take } = getTransactionDTO;
     const transactionWhereClause: Prisma.TransactionsWhereInput = {
       userId,
       createdAt: {
@@ -28,6 +28,7 @@ export class TransactionService {
         order: true,
         _count: true,
       },
+      ...(take && { take: Number(take) }),
       orderBy: { createdAt: 'desc' },
     });
   }

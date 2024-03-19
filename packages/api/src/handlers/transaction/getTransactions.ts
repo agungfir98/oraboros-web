@@ -5,13 +5,10 @@ import type { AxiosPromise } from "axios";
 import { useApiClient } from "../../providers";
 import { CustomAxiosConfig } from "../../types/axioscustomconfig";
 import { Prisma } from "@ob/db";
+import { GetTransactionDTO } from "@ob/dto";
 
 type CustomConfig = {
-	params: {
-		userId: string;
-		startDate?: string | Date;
-		endDate?: string | Date;
-	};
+	params: GetTransactionDTO;
 } & CustomAxiosConfig;
 
 type GetTransactionResult = {

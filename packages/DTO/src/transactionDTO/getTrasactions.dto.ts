@@ -1,5 +1,4 @@
-import { IsDate, IsObject, IsOptional, IsString } from "class-validator";
-import { GetOrderDTO } from "../orderDTO";
+import { IsNumber, IsOptional, IsString } from "class-validator";
 
 export class GetTransactionDTO {
 	@IsString()
@@ -10,4 +9,8 @@ export class GetTransactionDTO {
 
 	@IsOptional()
 	readonly endDate: string | Date;
+
+	@IsOptional()
+	@IsNumber()
+	readonly take?: number;
 }
